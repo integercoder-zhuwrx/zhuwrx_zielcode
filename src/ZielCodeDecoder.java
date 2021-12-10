@@ -68,24 +68,27 @@ public class ZielCodeDecoder {
         // digitIndex  0   1   2   3   4   5   6
 
         //                       digits.length => 6
-        //                       digits.length - 1 => 6 - 1 => 5
+        //                       digits.length - 1 => 6 - 1
+        //                                         => 5
         //  checksumDigitIndex => 5
         int checksumDigitIndex = digits.length - 1;
 
         int digitSum = 0;
-        //                                    digits.length => segmentCount => 6
-        //                                    digits.length - 1 => 6 - 1 => 5
         for (int digitIndex = 0; digitIndex < checksumDigitIndex; digitIndex++) {
             int digit = digits[digitIndex];
             digitSum = digitSum + digit;
         }
-        //                             digitSum => 8 + 1 + 1 + 4 + 2 => 16
-        //                             digitSum % 10 => 16 % 10 => 6
-        //  calculatedChecksum => 10 - (6) => 4
+        //                             digitSum => 8 + 1 + 1 + 4 + 2
+        //                                      => 16
+        //                             digitSum % 10 => 16 % 10
+        //                                           => 6
+        //  calculatedChecksum => 10 - (6)
+        //                     => 4
         int calculatedChecksum = 10 - (digitSum % 10);
         //                               checksumDigitIndex => 5
         if (calculatedChecksum == digits[checksumDigitIndex]) {
-            //                    checksumDigitIndex - 1 => 5 - 1 => 4
+            //                    checksumDigitIndex - 1 => 5 - 1
+            //                                           => 4
             for (int digitIndex = checksumDigitIndex - 1; digitIndex >= 0; digitIndex--) {
                 System.out.print(digits[digitIndex]);
             }
