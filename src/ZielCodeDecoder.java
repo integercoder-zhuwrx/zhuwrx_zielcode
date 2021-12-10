@@ -52,27 +52,44 @@ public class ZielCodeDecoder {
         //                                        segmentCount => 6
         for (int segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++) {
             String segment = segments[segmentIndex];
-            int sum = 0;
+            int bitSum = 0;
             for (int valueIndex = 0; valueIndex < values.length; valueIndex++) {
                 char bit = segment.charAt(valueIndex);
                 if (bit != '|') {
                     int value = values[valueIndex];
-                    sum = sum + value;
+                    bitSum = bitSum + value;
                 }
             }
-            digits[segmentIndex] = sum;
+            digits[segmentIndex] = bitSum;
         }
 
         //     digits  | 8 | 1 | 1 | 4 | 2 | 4 |
         //             |   |   |   |   |   |   |
         // digitIndex  0   1   2   3   4   5   6
 
+        //                       digits.length => 6
+        //                       digits.length - 1 => 6 - 1 => 5
+        //  checksumDigitIndex => 5
+        int checksumDigitIndex = digits.length - 1;
+
+        int digitSum = 0;
         //                                    digits.length => segmentCount => 6
-        for (int digitIndex = 0; digitIndex < digits.length; digitIndex++) {
+        //                                    digits.length - 1 => 6 - 1 => 5
+        for (int digitIndex = 0; digitIndex < checksumDigitIndex; digitIndex++) {
             int digit = digits[digitIndex];
-            System.out.print(digit);
+            digitSum = digitSum + digit;
+        }
+        int calculatedChecksum = 10 - (digitSum % 10);
+        //                               checksumDigitIndex => 5
+        if (calculatedChecksum == digits[checksumDigitIndex]) {
+            //                    checksumDigitIndex - 1 => 5 - 1 => 4
+            for (int digitIndex = checksumDigitIndex - 1; digitIndex >= 0; digitIndex--) {
+                System.out.print(digits[digitIndex]);
+            }
+        } else {
+            System.out.println("False code");
         }
         System.out.println();
-        // Program output: 811424
+        // Program output should be: 24118
     }
 }
