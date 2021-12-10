@@ -79,6 +79,9 @@ public class ZielCodeDecoder {
             int digit = digits[digitIndex];
             digitSum = digitSum + digit;
         }
+        //                             digitSum => 8 + 1 + 1 + 4 + 2 => 16
+        //                             digitSum % 10 => 16 % 10 => 6
+        //  calculatedChecksum => 10 - (6) => 4
         int calculatedChecksum = 10 - (digitSum % 10);
         //                               checksumDigitIndex => 5
         if (calculatedChecksum == digits[checksumDigitIndex]) {
