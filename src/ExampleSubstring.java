@@ -5,11 +5,11 @@ public class ExampleSubstring {
         String text = "Happy New Year.";
         println("String text = \"Happy New Year.\";");
 
+        var displayer = ListDisplayer.from(text, "characters", "indices");
+
         printSeparatorLine();
 
-        println("   text  | H | a | p | p | y |   | N | e | w |   | Y | e | a | r | . |");
-        println("         |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |");
-        println("indices  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15");
+        displayer.display();
 
         printSeparatorLine();
 
@@ -18,9 +18,7 @@ public class ExampleSubstring {
             println();
             println("text.substring(6, 9)");
             println();
-            println("   text  | N | e | w |");
-            println("         |   |   |   |");
-            println("indices  6   7   8   9");
+            displayer.display(6, 9);
             println();
 
             String result = text.substring(6, 9);
@@ -39,9 +37,7 @@ public class ExampleSubstring {
             println();
             println("text.substring(5)");
             println();
-            println("   text  |   | N | e | w |   | Y | e | a | r | . |");
-            println("         |   |   |   |   |   |   |   |   |   |   |");
-            println("indices  5   6   7   8   9   10  11  12  13  14  15");
+            displayer.display(5);
             println();
 
             String result = text.substring(5);
