@@ -82,26 +82,26 @@ public class ZielCodeDecoderDriver {
             //↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥↥
         }
 
-        int checksumDigitIndex = allDigits.length - 1;
-        int digitSum = 0;
-        for (int digitIndex = 0; digitIndex < checksumDigitIndex; digitIndex++) {
+        int checkDigitIndex = allDigits.length - 1;
+        int valueDigitsSum = 0;
+        for (int digitIndex = 0; digitIndex < checkDigitIndex; digitIndex++) {
             int digit = allDigits[digitIndex];
-            digitSum = digitSum + digit;
+            valueDigitsSum = valueDigitsSum + digit;
         }
 
-        System.out.println("digitSum: " + digitSum);
+        System.out.println("valueDigitsSum: " + valueDigitsSum);
 
-        int calculatedChecksum = 10 - (digitSum % 10);
-        if (calculatedChecksum == 10) {
-            calculatedChecksum = 0;
+        int calculatedCheckDigit = 10 - (valueDigitsSum % 10);
+        if (calculatedCheckDigit == 10) {
+            calculatedCheckDigit = 0;
         }
 
-        System.out.println("calculatedChecksum: " + calculatedChecksum);
+        System.out.println("calculatedCheckDigit: " + calculatedCheckDigit);
 
-        if (calculatedChecksum == allDigits[checksumDigitIndex]) {
+        if (calculatedCheckDigit == allDigits[checkDigitIndex]) {
             int[] valueDigits = new int[segmentCount - 1];
             int valueDigitIndex = 0;
-            for (int digitIndex = checksumDigitIndex - 1; digitIndex >= 0; digitIndex--) {
+            for (int digitIndex = checkDigitIndex - 1; digitIndex >= 0; digitIndex--) {
                 valueDigits[valueDigitIndex] = allDigits[digitIndex];
                 valueDigitIndex = valueDigitIndex + 1;
             }

@@ -3,16 +3,16 @@ package zielcode;
 public class ZielCodeDecoderWithComments {
     public static void main(String[] args) {
         //     Segment Indices  0     1     2     3     4     5     6
-        //                      |     |     |     |     |     |     |
+        //                      ↓     ↓     ↓     ↓     ↓     ↓     ↓
         //                      01247-01247-01247-01247-01247-01247-
         //                      -·--·-··----··----·--·--·-·---·--·--
         String /* */ barcode = "|·||·|··||||··||||·||·||·|·|||·||·||"; // 811424
-        //                      |     |     |     |     |     |     |
+        //                      ↑     ↑     ↑     ↑     ↑     ↑     ↑
         //      String Indices  0     6     12    18    24    30    36
         //
-        //  values  | 0 | 1 | 2 | 4 | 7 | - | 0 | 1 | 2 | 4 | 7 | - | 0 | 1 | 2 | 4 | 7 | - | 0 | 1 | 2 | 4 | 7 | - | 0 | 1 | 2 | 4 | 7 | - | 0 | 1 | 2 | 4 | 7 | - |
-        // barcode  | - | · | - | - | · | - | · | · | - | - | - | - | · | · | - | - | - | - | · | - | - | · | - | - | · | - | · | - | - | - | · | - | - | · | - | - |
-        //          |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+        //  values  █ 0 █ 1 █ 2 █ 4 █ 7 █ - █ 0 █ 1 █ 2 █ 4 █ 7 █ - █ 0 █ 1 █ 2 █ 4 █ 7 █ - █ 0 █ 1 █ 2 █ 4 █ 7 █ - █ 0 █ 1 █ 2 █ 4 █ 7 █ - █ 0 █ 1 █ 2 █ 4 █ 7 █ - █
+        // barcode  █ | █ · █ | █ | █ · █ | █ · █ · █ | █ | █ | █ | █ · █ · █ | █ | █ | █ | █ · █ | █ | █ · █ | █ | █ · █ | █ · █ | █ | █ | █ · █ | █ | █ · █ | █ | █
+        //          ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑   ↑
         // indices  0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
 
         int segmentLength = 6;
@@ -23,9 +23,9 @@ public class ZielCodeDecoderWithComments {
 
         //                             segmentCount => 6
         String[] segments = new String[segmentCount];
-        //     segments  | Segment 0 | Segment 1 | Segment 2 | Segment 3 | Segment 4 | Segment 5 |
-        //               |           |           |           |           |           |           |
-        // segmentIndex  0           1           2           3           4           5           6
+        //     segments  █|·||·|█··||||█··||||█·||·||█·|·|||█·||·||█
+        //               ↑      ↑      ↑      ↑      ↑      ↑      ↑
+        // segmentIndex  0      1      2      3      4      5      6
 
         //                  segmentCount => 6
         for (int i = 0; i < segmentCount; i++) {
@@ -45,12 +45,12 @@ public class ZielCodeDecoderWithComments {
         }
 
         int[] values = new int[]{0, 1, 2, 4, 7};
-        //     values  | 0 | 1 | 2 | 4 | 7 |
-        //             |   |   |   |   |   |
-        // valueIndex  0   1   2   3   4   5
+        // letter values  █ 0 █ 1 █ 2 █ 4 █ 7 █
+        //                ↑   ↑   ↑   ↑   ↑   ↑
+        //       indices  0   1   2   3   4   5
 
-        //                     segmentCount => 6
-        int[] digits = new int[segmentCount];
+        //                        segmentCount => 6
+        int[] allDigits = new int[segmentCount];
         //                                        segmentCount => 6
         for (int segmentIndex = 0; segmentIndex < segmentCount; segmentIndex++) {
             String segment = segments[segmentIndex];
@@ -62,37 +62,37 @@ public class ZielCodeDecoderWithComments {
                     bitSum = bitSum + value;
                 }
             }
-            digits[segmentIndex] = bitSum;
+            allDigits[segmentIndex] = bitSum;
         }
 
-        //     digits  | 8 | 1 | 1 | 4 | 2 | 4 |
-        //             |   |   |   |   |   |   |
-        // digitIndex  0   1   2   3   4   5   6
+        // all digits  █ 8 █ 1 █ 1 █ 4 █ 2 █ 4 █
+        //             ↑   ↑   ↑   ↑   ↑   ↑   ↑
+        //    indices  0   1   2   3   4   5   6
 
-        //                       digits.length => 6
-        //                       digits.length - 1 => 6 - 1
-        //                                         => 5
-        //  checksumDigitIndex => 5
-        int checksumDigitIndex = digits.length - 1;
+        //                     allDigits.length => 6
+        //                     allDigits.length - 1 => 6 - 1
+        //                                          => 5
+        //  checkDigitIndex => 5
+        int checkDigitIndex = allDigits.length - 1;
 
-        int digitSum = 0;
-        for (int digitIndex = 0; digitIndex < checksumDigitIndex; digitIndex++) {
-            int digit = digits[digitIndex];
-            digitSum = digitSum + digit;
+        int valueDigitsSum = 0;
+        for (int digitIndex = 0; digitIndex < checkDigitIndex; digitIndex++) {
+            int digit = allDigits[digitIndex];
+            valueDigitsSum = valueDigitsSum + digit;
         }
-        //                             digitSum => 8 + 1 + 1 + 4 + 2
-        //                                      => 16
-        //                             digitSum % 10 => 16 % 10
-        //                                           => 6
-        //  calculatedChecksum => 10 - (6)
-        //                     => 4
-        int calculatedChecksum = 10 - (digitSum % 10);
-        //                               checksumDigitIndex => 5
-        if (calculatedChecksum == digits[checksumDigitIndex]) {
-            //                    checksumDigitIndex - 1 => 5 - 1
-            //                                           => 4
-            for (int digitIndex = checksumDigitIndex - 1; digitIndex >= 0; digitIndex--) {
-                System.out.print(digits[digitIndex]);
+        //                             valueDigitsSum => 8 + 1 + 1 + 4 + 2
+        //                                            => 16
+        //                             valueDigitsSum % 10 => 16 % 10
+        //                                                 => 6
+        //  calculatedCheckDigit => 10 - (6)
+        //                       => 4
+        int calculatedCheckDigit = 10 - (valueDigitsSum % 10);
+        //                                    checkDigitIndex => 5
+        if (calculatedCheckDigit == allDigits[checkDigitIndex]) {
+            //                    checkDigitIndex - 1 => 5 - 1
+            //                                        => 4
+            for (int digitIndex = checkDigitIndex - 1; digitIndex >= 0; digitIndex--) {
+                System.out.print(allDigits[digitIndex]);
             }
         } else {
             System.out.println("False code");
