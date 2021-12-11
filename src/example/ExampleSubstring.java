@@ -1,3 +1,7 @@
+package example;
+
+import displayer.ListDisplayer;
+
 public class ExampleSubstring {
     public static void main(String[] args) {
         printSeparatorLine();

@@ -1,3 +1,5 @@
+package example;
+
 public class ExampleCharArray {
     public static void main(String[] args) {
         char[] chars = new char[]{'H', 'a', 'p', 'p', 'y', ' ', 'N', 'e', 'w', ' ', 'Y', 'e', 'a', 'r', '.'};

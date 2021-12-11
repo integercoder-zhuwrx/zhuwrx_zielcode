@@ -1,3 +1,5 @@
+package zielcode;
+
 public class ZielCodeDecoderWithComments {
     public static void main(String[] args) {
         //     Segment Indices  0     1     2     3     4     5     6
